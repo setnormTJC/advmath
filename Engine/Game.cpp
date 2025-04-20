@@ -42,9 +42,13 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	for (int x = 0; x < Graphics::ScreenWidth; ++x)
-	{
+	//for (int x = 0; x < Graphics::ScreenWidth; ++x)
+	//{
 
-		gfx.PutPixel(x, 100, Colors::Green); 
-	}
+	//	gfx.PutPixel(x, 100, Colors::Green); 
+	//}
+
+	//gfx.DrawLine({ 100, 100 }, { 200, 200 }); 
+
+	gfx.DrawLine({ 100, 100 }, (Vec2)wnd.mouse.GetPos(), Colors::Cyan);
 }

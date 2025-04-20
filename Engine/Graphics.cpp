@@ -316,6 +316,63 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
+void Graphics::DrawLine(const std::pair<int, int>& firstPoint, const std::pair<int, int>& secondPoint)
+{
+	int x0 = firstPoint.first; 
+	int y0 = firstPoint.second; 
+	int x1 = secondPoint.first; 
+	int y1 = secondPoint.second; 
+
+	float m = (y1 - y0) / (float)(x1 - x0);
+	int b = y1 - (m * x1);
+
+	for (int x = firstPoint.first; x < secondPoint.first; ++x)
+	{
+		int y = m * x + b; 
+		PutPixel(x, y, Colors::Green);
+	}
+}
+
+void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
+{
+	float m  = 0.0f;
+
+	if (p1.x != p0.x) //vertical line check 
+	{
+		m = (p1.y - p0.y) / (p1.x - p0.x);
+	}
+
+	if (p1.x != p0.x && std::abs(m) <= 1.0f)
+	{
+		if (p0.x > p1.x) //allows client to specify points in whatever order they please 
+			std::swap(p0, p1);
+
+		const float b = p0.y - m * p0.x;
+
+
+		for (int x = (int)p0.x; x < (int)p1.x; ++x)
+		{
+			const float y = m * x + b;
+			PutPixel(x, (int)y, c);
+		}
+	}
+
+	else
+	{
+		if (p0.y > p1.y)
+			std::swap(p0, p1); 
+
+		const float w = (p1.x - p0.x)/ (p1.y - p0.y); //w the "flip" of m :) -> cute Chilli choice 
+		const float p = p0.x - w * p0.y; //p -> the flip of b :) 
+
+		for (int y = (int)p0.y; y < (int)p1.y; ++y)
+		{
+			const float x = w * (float)y + p; 
+			PutPixel((int)x, y, c); 
+		}
+	}
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception
