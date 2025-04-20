@@ -42,4 +42,9 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	for (int x = 0; x < Graphics::ScreenWidth; ++x)
+	{
+
+		gfx.PutPixel(x, 100, Colors::Green); 
+	}
 }

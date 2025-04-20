@@ -75,7 +75,9 @@ public:
 	Keyboard kbd;
 	Mouse mouse;
 private:
-	static constexpr wchar_t* wndClassName = L"Chili DirectX Framework Window";
+
+
+	static constexpr const wchar_t* wndClassName = L"Chig";
 	HINSTANCE hInst = nullptr;
 	std::wstring args;
 };
