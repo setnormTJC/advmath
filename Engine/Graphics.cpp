@@ -353,7 +353,10 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
 		for (int x = (int)p0.x; x < (int)p1.x; ++x)
 		{
 			const float y = m * x + b;
-			PutPixel(x, (int)y, c);
+
+			if (x >= 0 && x < ScreenWidth && y >= 0 && y < ScreenHeight)
+				PutPixel(x, (int)y, c);
+			
 		}
 	}
 
@@ -368,8 +371,27 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
 		for (int y = (int)p0.y; y < (int)p1.y; ++y)
 		{
 			const float x = w * (float)y + p; 
-			PutPixel((int)x, y, c); 
+
+			if (x >= 0 && x < ScreenWidth && y >= 0 && y < ScreenHeight)
+				PutPixel((int)x, y, c); 
 		}
+	}
+}
+
+void Graphics::DrawClosePolyline(const std::vector<Vec2>& verts, Color c)
+{
+	for (auto i = verts.begin(); i != std::prev(verts.end()); ++i)
+		DrawLine(*i, *std::next(i), c); 
+
+	DrawLine(verts.back(), verts.front(), c); 
+}
+
+void Graphics::MyTranslate(std::vector<Vec2>& verts, const Vec2& delta)
+{
+	for (auto& vertex : verts)
+	{
+		vertex.x += delta.x; 
+		vertex.y += delta.y; 
 	}
 }
 
