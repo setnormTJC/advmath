@@ -27,8 +27,17 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	ct(gfx)
+	ct(gfx), 
+	cam(ct)
 {
+	
+	entities.emplace_back(Star::Make(100.0f, 50.0f), Vec2{ 460.0f, 0.0f });
+	entities.emplace_back(Star::Make(150.0f, 50.0f), Vec2{ 150.0f, 300.0f });
+
+	entities.emplace_back(Star::Make(350.0f, 20.0f), Vec2{ 50.0f, 300.0f });
+
+	entities.emplace_back(Star::Make(150.0f, 150.0f), Vec2{ 550.0f, 300.0f });
+
 }
 
 void Game::Go()
@@ -41,41 +50,49 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	const float speed = 3.0f; 
+	const float speed = 3.0f;
+
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
-		e1.TranslateBy({ 0.0f, -speed });
+		cam.MoveBy({ 0.0f, -speed });
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
-		e1.TranslateBy({ 0.0f, +speed });
+		cam.MoveBy({ 0.0f, +speed });
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-		e1.TranslateBy({-speed,0.0f });
+		cam.MoveBy({ -speed,0.0f });
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-		e1.TranslateBy({+speed, 0.0f});
-
-	
+		cam.MoveBy({ +speed, 0.0f });
 
 	while (!wnd.mouse.IsEmpty())
 	{
-		const auto e = wnd.mouse.Read(); 
+		const auto e = wnd.mouse.Read();
 
 		if (e.GetType() == Mouse::Event::Type::WheelUp)
 		{
-			e1.SetScale(e1.GetScale() * 1.05f);
+			cam.SetScale(cam.GetScale() * 1.05f);
 		}
 
 		else if (e.GetType() == Mouse::Event::Type::WheelDown)
 		{
-			e1.SetScale(e1.GetScale() * 0.95f);
+			cam.SetScale(cam.GetScale() * 0.95f);
 		}
 	}
+
 }
 
 
 void Game::ComposeFrame()
 {
+	for (const auto& entity : entities)
+	{
+		auto drawable = entity.GetDrawable(); 
 
-	ct.DrawClosedPolyline(e1.GetPolyline(), Colors::Blue);
+		cam.Draw(drawable);
+	}
 
+	//ct.DrawClosedPolyline(entities[0].GetPolyline(), Colors::Blue); 
+	//ct.DrawClosedPolyline(entities[1].GetPolyline(), Colors::Blue);
+	//for (const auto& entity : entities)
+	//	ct.DrawClosedPolyline(entity.GetPolyline(), Colors::Yellow);
 }

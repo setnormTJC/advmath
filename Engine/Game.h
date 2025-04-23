@@ -26,6 +26,7 @@
 #include"CoordinateTransformer.h"
 #include "Entity.h"
 #include"Star.h"
+#include "Camera.h"
 
 class Game
 {
@@ -47,7 +48,15 @@ private:
 	/*  User Variables              */
 	/********************************/
 	CoordinateTransformer ct;
-	Entity e1 = Star::Make(150.0f, 75.0f, 5);
+	Camera cam;
+	std::vector<Entity> entities;
+
+
+	//static constexpr int numberOfStarPoints = 5; 
+	
+
+
+	//Entity e1 = Star::Make(150.0f, 75.0f, numberOfStarPoints);
 	
 	//Entity e1 = Star::MakeHeart(250, 250); 
 

@@ -2,12 +2,15 @@
 
 #include<vector> 
 #include"Vec2.h"
+#include"Drawable.h"
 
 class Entity
 {
 public: 
-	Entity(std::vector<Vec2> model)
+	Entity(std::vector<Vec2> model, const Vec2& pos = {0.0f, 0.0f}, Color c = Colors::Yellow)
 		:
+		c(c),
+		pos(pos),
 		model(std::move(model)) //note the std::move 
 	{}
 	const Vec2& GetPos() const
@@ -34,18 +37,19 @@ public:
 		return scale; 
 	}
 
-	std::vector<Vec2> GetPolyline() const
+	Drawable GetDrawable() const
 	{
-		auto poly = model; 
-		for (auto& v : poly)
-		{
-			v *= scale; 
-			v += pos;
-		}
-		return poly; 
+		Drawable d(model, c); 
+
+		d.Scale(scale); 
+		d.Translate(pos); 
+
+		return d; 
 	}
 
+
 private: 
+	Color c; 
 	float scale = 1.0f; 
 	Vec2 pos = { 0.0f, 0.0f };
 	std::vector<Vec2> model; 
