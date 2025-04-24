@@ -31,84 +31,13 @@ Game::Game(MainWindow& wnd)
 	ct(gfx), 
 	cam(ct)
 {
+	int numberOfStars = 20; 
 
-	Vec2 lowerLeftBoxBound = { -2000.0f, -2000.0f };
-	Vec2 upperRightBoxBound = { +4000.0f, +4000.0f };
+	Starfield starfield(numberOfStars);
 
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_real_distribution<float> positionDistribution
-		(lowerLeftBoxBound.x,
-		upperRightBoxBound.x);
+	starfield.fillEntities(); 
 
-	constexpr float MAX_OUTER_DIAMETER = 200.0f; //used to prevent overlap below...
-	constexpr float MIN_INNER_DIAMTER = 10.0f; 
-
-	std::vector<Vec2> possibleStarSizeRatios =
-	{
-		Vec2(100.0f,				50.0f),
-		Vec2(MAX_OUTER_DIAMETER,	50.0f),
-		Vec2(100.0f,				75.0f),
-		Vec2(50.0f,					MIN_INNER_DIAMTER),
-	};
-
-	std::uniform_int_distribution<> starSizeDistribution
-		(0, possibleStarSizeRatios.size() - 1);
-
-	constexpr int NUMBER_OF_STARS = 20; 
-
-	std::vector<int> possibleNumbersOfFlares =
-	{
-		5, 6, 7, 8, 9,				17 //oddball
-	};
-
-	std::uniform_int_distribution<> numbersOfFlaresDistribution(0, possibleNumbersOfFlares.size() - 1);
-
-	std::uniform_int_distribution<> randomColorDistribution(0, 255);
-
-	int currentStarIndex = 0; 
-
-	std::vector<Vec2> occupiedPositions; 
-
-	while (entities.size() <= NUMBER_OF_STARS)
-	{
-		Vec2 randomSizeRatio = possibleStarSizeRatios[starSizeDistribution(rng)];
-		Vec2 randomPosition(positionDistribution(rng), positionDistribution(rng));
-		
-		//prevent overlap by checking that randomPosition is not so close to other occupied positions
-		bool starOverlaps = false; 
-		constexpr float overlapTolerance = 100.0f; 
-
-		for (const auto& position : occupiedPositions)
-		{
-			if (std::abs(position.x - randomPosition.x) < overlapTolerance
-				||
-				std::abs(position.y - randomPosition.y) < overlapTolerance
-				)
-			
-			{
-				starOverlaps = true; 
-				break; //look no further - an overlap was found 
-			}
-		}
-		if (starOverlaps) continue; //"reroll" -> go no further in this loop iteration 
-
-		occupiedPositions.push_back(randomPosition);  
-
-		int numberOfFlares = possibleNumbersOfFlares[numbersOfFlaresDistribution(rng)];
-
-		entities.emplace_back
-		(Star::Make(randomSizeRatio.x, randomSizeRatio.y, numberOfFlares),
-			randomPosition,
-			Colors::MakeRGB(randomColorDistribution(rng), randomColorDistribution(rng), randomColorDistribution(rng)));	
-	}
-
-
-	//entities.emplace_back(Star::Make(100.0f, 50.0f), Vec2{ 460.0f, 0.0f });
-	//entities.emplace_back(Star::Make(150.0f, 50.0f), Vec2{ 150.0f, 300.0f });
-
-	//entities.emplace_back(Star::Make(350.0f, 20.0f), Vec2{ 50.0f, 300.0f });
-
-	//entities.emplace_back(Star::Make(150.0f, 150.0f), Vec2{ 550.0f, 300.0f });
+	entities = starfield.getEntities(); 
 
 }
 
