@@ -55,12 +55,12 @@ void Game::UpdateModel()
 
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		plank.MoveFreeY(-2.0f);
+		plank.MoveFreeY(-0.2f);
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		plank.MoveFreeY(+2.0f);
+		plank.MoveFreeY(+0.2f);
 	}
 }
 
