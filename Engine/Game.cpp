@@ -30,8 +30,11 @@ Game::Game( MainWindow& wnd )
 	cam( ct ),
 	camCtrl( wnd.mouse,cam ),
 	plank ({100.0f, 200.0f}, -380.0f, -100.0f, 290.0f), 
-	ball({ 0.0f,-200.0f }, 15.0f, { 8.0f,32.0f })
+	//balls()
+	//spawn(balls, 15.0f, {0.0f, -250.0f}, -100.0f, +100.0f, +20.0f)
 
+	//ball({ 0.0f,-200.0f }, 15.0f, { 8.0f,32.0f })
+	spawn(balls, 15.0f, { 0.0f,-250.0f }, -100.0f, 25.0f, 150.0f, 0.4f)
 {
 }
 
@@ -46,7 +49,14 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
-	ball.Update(dt);
+	
+	for (auto& ball : balls)
+	{
+		ball.Update(dt);
+	}
+
+	spawn.Update(dt);
+
 	camCtrl.Update();
 
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
@@ -58,6 +68,18 @@ void Game::UpdateModel()
 	{
 		plank.MoveFreeY(+0.2f);
 	}
+
+
+	//remove far away balls: 
+	auto new_end = std::remove_if(balls.begin(), balls.end(),
+		[this](const Ball& b)
+		{
+			return b.GetPos().LenSq() > maxBallDistance * maxBallDistance;
+		}
+		);
+
+	balls.erase(new_end, balls.end());
+
 }
 
 
@@ -67,6 +89,9 @@ void Game::ComposeFrame()
 	auto drawable = plank.GetDrawable(); 
 	cam.Draw(drawable);
 
-	auto ballDrawabale = ball.GetDrawable(); 
-	cam.Draw(ballDrawabale);
+	for (auto& ball : balls)
+	{
+		auto ballDrawabale = ball.GetDrawable();
+		cam.Draw(ballDrawabale);
+	}
 }

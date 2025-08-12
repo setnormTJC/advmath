@@ -31,6 +31,7 @@
 #include "FrameTimer.h"
 #include"Plank.h"
 #include"Ball.h"
+#include"SpawnPoint.h"
 #include <random>
 
 class Game
@@ -54,12 +55,18 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+
+
+	static constexpr float maxBallDistance = 2000.0f; 
+
 	FrameTimer ft;
 	CoordinateTransformer ct;
 	Camera cam;
 	MouseCameraController camCtrl;
 
 	Plank plank; 
-	Ball ball; 
+	//Ball ball; 
+	std::vector<Ball> balls; 
+	SpawnPoint spawn; 
 	/********************************/
 };
