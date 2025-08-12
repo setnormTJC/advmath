@@ -26,28 +26,35 @@ class _Vec2
 public:
 	_Vec2()
 	{}
+
 	_Vec2( T x,T y )
 		:
 		x( x ),
 		y( y )
 	{}
+
 	_Vec2( const _Vec2& vect )
 		:
 		_Vec2( vect.x,vect.y )
 	{}
+
 	template <typename T2>
 	explicit operator _Vec2<T2>() const
 	{
 		return{ (T2)x,(T2)y };
 	}
+
+
 	T		LenSq() const
 	{
 		return x * x + y * y;
 	}
+
 	T		Len() const
 	{
 		return sqrt( LenSq() );
 	}
+
 	_Vec2&	Normalize()
 	{
 		const T length = Len();
@@ -55,12 +62,21 @@ public:
 		y /= length;
 		return *this;
 	}
+
 	_Vec2	GetNormalized() const
 	{
 		_Vec2 norm = *this;
 		norm.Normalize();
 		return norm;
 	}
+
+	/*Dot product (overloaded *) -> note the return type is T (NOT a Vec2)*/
+	T operator* (const _Vec2& rhs) const 
+	{
+		return x * rhs.x + y * rhs.y; 
+	}
+
+
 	_Vec2	operator-() const
 	{
 		return _Vec2( -x,-y );
@@ -97,6 +113,8 @@ public:
 		y *= rhs;
 		return *this;
 	}
+
+	/*Scalar multiplication -> not the return type is another Vec2*/
 	_Vec2	operator*( const T &rhs ) const
 	{
 		return _Vec2( *this ) *= rhs;

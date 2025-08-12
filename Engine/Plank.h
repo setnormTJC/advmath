@@ -49,6 +49,13 @@ public:
 		return -freePtModel;
 	}
 
+	auto GetPoints() const
+	{
+		const Vec2 pos = GetPos(); 
+
+		return std::make_pair(pos, pos + freePtModel);
+	}
+
 private: 
 	float minFreeYModel; //this plank will pivot -> hence having a "free" end 
 	float maxFreeYModel; //the use of "model" is referring to model coordinates 

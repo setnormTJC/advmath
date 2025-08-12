@@ -34,6 +34,9 @@
 #include"SpawnPoint.h"
 #include <random>
 
+
+#include"Sound.h"
+
 class Game
 {
 public:
@@ -58,6 +61,8 @@ private:
 
 
 	static constexpr float maxBallDistance = 2000.0f; 
+
+	Sound collideSound = Sound(L"Sounds\\arkpad.wav");
 
 	FrameTimer ft;
 	CoordinateTransformer ct;

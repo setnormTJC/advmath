@@ -22,6 +22,8 @@
 #include "Game.h"
 #include "Star.h"
 
+#include"ChiliMath.h"
+
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
@@ -30,10 +32,6 @@ Game::Game( MainWindow& wnd )
 	cam( ct ),
 	camCtrl( wnd.mouse,cam ),
 	plank ({100.0f, 200.0f}, -380.0f, -100.0f, 290.0f), 
-	//balls()
-	//spawn(balls, 15.0f, {0.0f, -250.0f}, -100.0f, +100.0f, +20.0f)
-
-	//ball({ 0.0f,-200.0f }, 15.0f, { 8.0f,32.0f })
 	spawn(balls, 15.0f, { 0.0f,-250.0f }, -100.0f, 25.0f, 150.0f, 0.4f)
 {
 }
@@ -50,8 +48,24 @@ void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
 	
+	const auto plankPts = plank.GetPoints();
+
 	for (auto& ball : balls)
 	{
+		if (DistancePointLine(plankPts.first, plankPts.second, ball.GetPos())
+			< ball.GetRadius())
+		{
+			const Vec2 w = plank.GetPlankSurfaceVector().GetNormalized(); 
+			const Vec2 v = ball.GetVel(); 
+
+			const auto dotProduct = v.operator*(w); //dot product operation here
+									//since a Vec2 is in parentheses 
+
+			ball.SetVel(w * dotProduct * 2.0f - v); 
+
+			//collideSound.Play(); //collision sound is terribly loud at the moment
+		}
+
 		ball.Update(dt);
 	}
 

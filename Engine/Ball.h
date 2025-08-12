@@ -8,13 +8,12 @@ class Ball : public Entity
 public: 
 	Ball(Vec2 pos, float radius, Vec2 vel, Color c = Colors::Red)
 		:
-		Entity(Star::Make(radius, radius, 8), pos, c), 
+		Entity(Star::Make(radius, radius, 4), pos, c), 
 		radius(radius), 
 		vel(vel)
 	{
 	};
 	//cute use of same radius for BOTH inner and outer radius (gives a circle) 
-	//not sure why 8 flares are used
 
 	float GetRadius() const
 	{
