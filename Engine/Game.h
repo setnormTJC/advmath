@@ -29,6 +29,8 @@
 #include "Camera.h"
 #include "MouseCameraController.h"
 #include "FrameTimer.h"
+#include"Plank.h"
+#include"Ball.h"
 #include <random>
 
 class Game
@@ -44,6 +46,9 @@ private:
 	/********************************/
 	/*  User Functions              */
 	/********************************/
+
+
+
 private:
 	MainWindow& wnd;
 	Graphics gfx;
@@ -53,5 +58,8 @@ private:
 	CoordinateTransformer ct;
 	Camera cam;
 	MouseCameraController camCtrl;
+
+	Plank plank; 
+	Ball ball; 
 	/********************************/
 };

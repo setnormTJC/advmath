@@ -28,7 +28,14 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	ct( gfx ),
 	cam( ct ),
-	camCtrl( wnd.mouse,cam )
+	camCtrl( wnd.mouse,cam ),
+	plank ({100.0f, 200.0f}, -380.0f, -100.0f, 290.0f), 
+
+	//ball()
+
+	ball({ 0.0f,-200.0f }, 15.0f, { -8.0f,32.0f })
+
+	//ball({ 0.0f, -200.0f }, 50.0f, {10.0f, 5.0f}, Colors::Green)
 {
 }
 
@@ -43,9 +50,27 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
+	ball.Update(dt);
 	camCtrl.Update();
+
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		plank.MoveFreeY(-2.0f);
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_UP))
+	{
+		plank.MoveFreeY(+2.0f);
+	}
 }
+
 
 void Game::ComposeFrame()
 {
+	//cam.Draw(plank.GetDrawable());//error -> initial value of ref. to non-const must be l-value
+	auto drawable = plank.GetDrawable(); 
+	cam.Draw(drawable);
+
+	auto ballDrawabale = ball.GetDrawable(); 
+	cam.Draw(ballDrawabale);
 }

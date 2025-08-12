@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MouseCameraController.h" />
+    <ClInclude Include="Plank.h" />
     <ClInclude Include="RectF.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sound.h" />
