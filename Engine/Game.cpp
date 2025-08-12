@@ -30,12 +30,8 @@ Game::Game( MainWindow& wnd )
 	cam( ct ),
 	camCtrl( wnd.mouse,cam ),
 	plank ({100.0f, 200.0f}, -380.0f, -100.0f, 290.0f), 
+	ball({ 0.0f,-200.0f }, 15.0f, { 8.0f,32.0f })
 
-	//ball()
-
-	ball({ 0.0f,-200.0f }, 15.0f, { -8.0f,32.0f })
-
-	//ball({ 0.0f, -200.0f }, 50.0f, {10.0f, 5.0f}, Colors::Green)
 {
 }
 

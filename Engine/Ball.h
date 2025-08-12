@@ -8,7 +8,9 @@ class Ball : public Entity
 public: 
 	Ball(Vec2 pos, float radius, Vec2 vel, Color c = Colors::Red)
 		:
-		Entity(Star::Make(radius, radius, 8), pos, c)
+		Entity(Star::Make(radius, radius, 8), pos, c), 
+		radius(radius), 
+		vel(vel)
 	{
 	};
 	//cute use of same radius for BOTH inner and outer radius (gives a circle) 
@@ -32,6 +34,6 @@ public:
 	}
 
 private: 
-	float radius; 
-	Vec2 vel; 
+	float radius = 10.0f; 
+	Vec2 vel = { -8.0f,32.0f };
 };
