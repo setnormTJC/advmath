@@ -52,19 +52,28 @@ void Game::UpdateModel()
 
 	for (auto& ball : balls)
 	{
-		if (DistancePointLine(plankPts.first, plankPts.second, ball.GetPos())
-			< ball.GetRadius())
+		const auto plankVector = plank.GetPlankSurfaceVector(); 
+		const auto plankNormal = Vec2{ plankVector.y, -plankVector.x };
+		const auto planPts = plank.GetPoints(); 
+		const auto ballPos = ball.GetPos(); 
+
+		if (plankNormal * ball.GetVel() < 0.0f) //handles balls "sticking" to paddle (plank)
 		{
-			const Vec2 w = plank.GetPlankSurfaceVector().GetNormalized(); 
-			const Vec2 v = ball.GetVel(); 
+			if (DistancePointLine(plankPts.first, plankPts.second, ball.GetPos())
+				< ball.GetRadius())
+			{
+				const Vec2 w = plank.GetPlankSurfaceVector().GetNormalized();
+				const Vec2 v = ball.GetVel();
 
-			const auto dotProduct = v.operator*(w); //dot product operation here
-									//since a Vec2 is in parentheses 
+				const auto dotProduct = v.operator*(w); //dot product operation here
+				//since a Vec2 is in parentheses 
 
-			ball.SetVel(w * dotProduct * 2.0f - v); 
+				ball.SetVel(w * dotProduct * 2.0f - v);
 
-			//collideSound.Play(); //collision sound is terribly loud at the moment
+				//collideSound.Play(); //collision sound is terribly loud at the moment
+			}
 		}
+
 
 		ball.Update(dt);
 	}
