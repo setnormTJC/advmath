@@ -91,9 +91,13 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	cam.Draw( plank.GetDrawable() );
+	auto plankDrawable = plank.GetDrawable(); 
+	cam.Draw( plankDrawable );
+	
+	
 	for( const auto& ball : balls )
 	{
-		cam.Draw( ball.GetDrawable() );
+		auto ballDrawable = ball.GetDrawable(); 
+		cam.Draw( ballDrawable );
 	}
 }
