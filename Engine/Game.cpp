@@ -47,74 +47,31 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
+
+
+	t += dt;
+
+	star = Star::Make(100.0f, 20.0f); 
+
+	const float theta = t * PI; 
 	
-	const auto plankPts = plank.GetPoints();
-
-	for (auto& ball : balls)
+	for (auto& point : star)
 	{
-		const auto plankVector = plank.GetPlankSurfaceVector(); 
-		const auto plankNormal = Vec2{ plankVector.y, -plankVector.x };
-		const auto planPts = plank.GetPoints(); 
-		const auto ballPos = ball.GetPos(); 
-
-		if (plankNormal * ball.GetVel() < 0.0f) //handles balls "sticking" to paddle (plank)
-		{
-			if (DistancePointLine(plankPts.first, plankPts.second, ball.GetPos())
-				< ball.GetRadius())
-			{
-				const Vec2 w = plank.GetPlankSurfaceVector().GetNormalized();
-				const Vec2 v = ball.GetVel();
-
-				const auto dotProduct = v.operator*(w); //dot product operation here
-				//since a Vec2 is in parentheses 
-
-				ball.SetVel(w * dotProduct * 2.0f - v);
-
-				//collideSound.Play(); //collision sound is terribly loud at the moment
-			}
-		}
-
-
-		ball.Update(dt);
+		point.Rotate(theta);
 	}
-
-	spawn.Update(dt);
 
 	camCtrl.Update();
 
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		plank.MoveFreeY(-0.2f);
-	}
 
-	if (wnd.kbd.KeyIsPressed(VK_UP))
-	{
-		plank.MoveFreeY(+0.2f);
-	}
-
-
-	//remove far away balls: 
-	auto new_end = std::remove_if(balls.begin(), balls.end(),
-		[this](const Ball& b)
-		{
-			return b.GetPos().LenSq() > maxBallDistance * maxBallDistance;
-		}
-		);
-
-	balls.erase(new_end, balls.end());
 
 }
 
 
 void Game::ComposeFrame()
 {
-	//cam.Draw(plank.GetDrawable());//error -> initial value of ref. to non-const must be l-value
-	auto drawable = plank.GetDrawable(); 
-	cam.Draw(drawable);
+	Drawable starDrawable(star, Colors::Yellow); 
 
-	for (auto& ball : balls)
-	{
-		auto ballDrawabale = ball.GetDrawable();
-		cam.Draw(ballDrawabale);
-	}
+	cam.Draw(starDrawable);
+
+
 }

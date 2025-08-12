@@ -3,6 +3,9 @@
 #include<cmath>
 #include"Vec2.h"
 
+
+constexpr float PI = 3.1415926; 
+
 template<typename T>
 auto sq(T x)
 {

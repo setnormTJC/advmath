@@ -73,5 +73,10 @@ private:
 	//Ball ball; 
 	std::vector<Ball> balls; 
 	SpawnPoint spawn; 
+
+
+	std::vector<Vec2> star; 
+	float t = 0.0f; 
+
 	/********************************/
 };

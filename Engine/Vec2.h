@@ -137,6 +137,27 @@ public:
 	{
 		return !(*this == rhs);
 	}
+
+	/*non-matrix version*/
+	_Vec2& Rotate(T angle)
+	{
+		const T cosTheta = cos(angle); 
+		const T sinTheta = sin(angle); 
+
+		const T newX = x * cosTheta - y * sinTheta; 
+		y = x * sinTheta + y * cosTheta; 
+		x = newX; 
+
+		return *this; 
+	}
+
+	/*Non-mutating version (overload)*/
+	_Vec2 GetRotated(T angle) const 
+	{
+		return _Vec2(*this).Rotate(angle);
+	}
+
+
 public:
 	T x;
 	T y;
