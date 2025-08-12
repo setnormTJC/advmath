@@ -91,7 +91,8 @@ void Game::ComposeFrame()
 	{
 		if( star.GetBoudingRect().IsOverlappingWith( vp ) )
 		{
-			cam.Draw( star.GetDrawable() );
+			auto starDrawable = star.GetDrawable(); 
+			cam.Draw( starDrawable);
 		}
 	}
 }
