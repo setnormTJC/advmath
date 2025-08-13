@@ -123,22 +123,31 @@ void Game::ComposeFrame()
 	//}
 
 	/*matrix approach*/
-	auto star = Star::Make(100.0f, 50.0f);
+	//auto star = Star::Make(100.0f, 50.0f);
 
-	auto tform = Mat3::Scale(2.0f); 
-	auto tform2 = Mat3::FlipY(); 
-	auto tform3 = Mat3::Rotation(0.3);
-	auto tform4 = Mat3::Translation(-200.0f, -100.0f); 
+	//auto tform = Mat3::Scale(2.0f); 
+	//auto tform2 = Mat3::FlipY(); 
+	//auto tform3 = Mat3::Rotation(0.3);
+	//auto tform4 = Mat3::Translation(-200.0f, -100.0f); 
 
-	const auto tformcat = tform4 * tform3 * tform2 * tform;// *tform3;
+	//const auto tformcat = tform4 * tform3 * tform2 * tform;// *tform3;
 
-	for (auto& v : star)
+	//for (auto& v : star)
+	//{
+	//	v = Vec2(tformcat * (Vec3)v); 
+	//}
+
+	//auto starDrawabale = Drawable{ star, Colors::Green };
+	//cam.Draw(starDrawabale);
+
+
+	const auto vp = cam.GetViewportRect();
+	for( const auto& star : stars )
 	{
-		v = Vec2(tformcat * (Vec3)v); 
+		if( star.GetBoudingRect().IsOverlappingWith( vp ) )
+		{
+			auto starDrawable = star.GetDrawable(); 
+			cam.Draw( starDrawable);
+		}
 	}
-
-	auto starDrawabale = Drawable{ star, Colors::Green };
-	cam.Draw(starDrawabale);
-
-
 }

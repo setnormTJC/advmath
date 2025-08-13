@@ -51,11 +51,21 @@ public:
 	Drawable GetDrawable() const
 	{
 		Drawable d( model,c );
-		d.Scale( scale );
+		//d.Scale( scale );
 
-		d.Rotate(angle);
+		//d.Rotate(angle);
 
-		d.Translate( pos );
+		//d.Translate( pos );
+
+		Mat3 transformation = Mat3::Translation(pos.x, pos.y) *
+			Mat3::Scale(scale) *
+			Mat3::Rotation(angle);
+
+		d.ApplyTransformation
+		(
+			transformation
+		);
+
 		return d;
 	}
 private:

@@ -1,11 +1,18 @@
 #pragma once
-
+#include<cmath>
 #include"Vec3.h"
 
 template<typename T> 
 class _Mat3
 {
 public: 
+	/*Allows for multiplying a Vec2 by a Mat3 (preventing need to alter
+	many Vec2s in the codebase to Vec3s)*/
+	_Vec2<T> operator* (const _Vec2<T>& v) const
+	{
+		return _Vec2<T>(*this * (Vec3)v);
+	}
+
 	_Vec3<T> operator * (const _Vec3<T>& v) const
 	{
 		_Vec3<T> vout; 
@@ -38,6 +45,16 @@ public:
 		{
 			(T)1, (T)0, (T)0,
 			(T)0, (T)-1,(T)0,
+			(T)0, (T)0, (T)1
+		};
+	}
+
+	static _Mat3 ScaleIndependent(T x, T y)
+	{
+		return
+		{
+			(T)x, (T)0, (T)0,
+			(T)0, (T)y,(T)0,
 			(T)0, (T)0, (T)1
 		};
 	}
@@ -85,10 +102,10 @@ public:
 		return out; 
 	}
 
-	_Mat3& operator *= (const _Mat3& rhs)
-	{
-		return* this = *this * rhs; 
-	}
+	//_Mat3& operator *= (const _Mat3& rhs)
+	//{
+	//	return* this = *this * rhs; 
+	//}
 
 
 

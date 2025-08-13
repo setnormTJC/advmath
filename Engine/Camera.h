@@ -28,10 +28,19 @@ public:
 	}
 	void Draw( Drawable& drawable ) const
 	{
-		drawable.Translate( -pos );
-		drawable.Scale( scale );
+		//drawable.Translate( -pos );
+		//drawable.Scale( scale );
 
-		drawable.Rotate(angle); 
+		//drawable.Rotate(angle); 
+
+		Mat3 transformation = Mat3::Rotation(angle) *
+			Mat3::Scale(scale) *
+			Mat3::Translation(-pos.x, -pos.y);
+
+		drawable.ApplyTransformation
+		(
+			transformation
+		);
 
 		ct.Draw( drawable );
 	}
