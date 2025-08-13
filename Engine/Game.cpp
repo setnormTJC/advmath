@@ -21,7 +21,7 @@
 #include "MainWindow.h"
 #include "Game.h"
 #include "Star.h"
-#include"Mat2.h"
+#include"Mat3.h"
 
 
 
@@ -125,15 +125,16 @@ void Game::ComposeFrame()
 	/*matrix approach*/
 	auto star = Star::Make(100.0f, 50.0f);
 
-	auto tform = Mat2::Scale(10.0f); 
-	auto tform2 = Mat2::FlipY(); 
-	auto tform3 = Mat2::Rotate(0.3);
+	auto tform = Mat3::Scale(2.0f); 
+	auto tform2 = Mat3::FlipY(); 
+	auto tform3 = Mat3::Rotation(0.3);
+	auto tform4 = Mat3::Translation(-200.0f, -100.0f); 
 
-	const auto tformcat = tform3 * tform2 * tform;// *tform3;
+	const auto tformcat = tform4 * tform3 * tform2 * tform;// *tform3;
 
 	for (auto& v : star)
 	{
-		v = tformcat * v; 
+		v = Vec2(tformcat * (Vec3)v); 
 	}
 
 	auto starDrawabale = Drawable{ star, Colors::Green };
