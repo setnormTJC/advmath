@@ -22,6 +22,9 @@
 #include "Game.h"
 #include "Star.h"
 
+
+
+
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
@@ -43,6 +46,11 @@ Game::Game( MainWindow& wnd )
 	std::normal_distribution<float> radiusAmplitudeDist( meanRadiusAmplitude,devRadiusAmplitude );
 	std::normal_distribution<float> radiusFreqDist( meanRadiusFreq,devRadiusFreq );
 
+	std::uniform_real_distribution rotspeedDis(minRotspeed, maxRotspeed);
+
+
+
+
 	while( stars.size() < nStars )
 	{
 		const auto rad = std::clamp( radDist( rng ),minStarRadius,maxStarRadius );
@@ -62,7 +70,12 @@ Game::Game( MainWindow& wnd )
 		const float colorPhase = phaseDist( rng );
 		const float radiusFreq = radiusFreqDist( rng );
 		const float radiusPhase = phaseDist( rng );
-		stars.emplace_back( pos,rad,rat,nFlares,c,colorFreq,colorPhase,radiusAmplitude,radiusFreq,radiusPhase );
+
+		//added rotation speed
+		const float rotSpeed = rotspeedDis(rng); 
+
+		stars.emplace_back( 
+			pos,rad,rat,nFlares,c,colorFreq,colorPhase,radiusAmplitude,radiusFreq, radiusPhase, rotSpeed );
 	}
 }
 

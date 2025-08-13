@@ -32,6 +32,8 @@
 #include "FrameTimer.h"
 #include <random>
 
+#include"ChiliMath.h"
+
 class Game
 {
 public:
@@ -80,6 +82,11 @@ private:
 	static constexpr float devRadiusFreq = 1.0f;
 	static constexpr float minRadiusFreq = 0.6f;
 	static constexpr float maxRadiusFreq = 4.0f;
+
+
+	static constexpr float minRotspeed = -2.0f * PI;
+	static constexpr float maxRotspeed = 2.0f * PI;
+
 
 	// game objects
 	FrameTimer ft;
