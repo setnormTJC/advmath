@@ -81,10 +81,9 @@ public:
 	//static constexpr int ScreenWidth = 800;
 	//static constexpr int ScreenHeight = 600;
 
-	static constexpr int ScreenWidth = 1900;
-	static constexpr int ScreenHeight = 1000; //rough laptop dims
+	//static constexpr int ScreenWidth = 1900;
+	//static constexpr int ScreenHeight = 1000; //rough laptop dims
 
-
-	/*	static constexpr int ScreenWidth = 1400;
-		static constexpr int ScreenHeight = 2500;*/ //using portrait mode on my desktop computer 
+	static constexpr int ScreenWidth = 1400;
+	static constexpr int ScreenHeight = 2500; //using portrait mode on my desktop computer 
 };

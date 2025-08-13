@@ -21,6 +21,7 @@
 #include "MainWindow.h"
 #include "Game.h"
 #include "Star.h"
+#include"Mat2.h"
 
 
 
@@ -78,6 +79,16 @@ Game::Game( MainWindow& wnd )
 		stars.emplace_back( 
 			pos,rad,rat,nFlares,c,colorFreq,colorPhase,radiusAmplitude,radiusFreq, radiusPhase, rotSpeed );
 	}
+
+
+
+	//simple Mat vec multiplication test
+	//_Mat2<float> m = { 1, 2, 3, 4 };
+	//_Vec2<float> v = {5, 6};
+
+	//_Vec2<float> w = m * v; 
+
+
 }
 
 void Game::Go()
@@ -100,13 +111,33 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	const auto vp = cam.GetViewportRect();
-	for( const auto& star : stars )
+	//non-matrix approach: 
+	//const auto vp = cam.GetViewportRect();
+	//for( const auto& star : stars )
+	//{
+	//	if( star.GetBoudingRect().IsOverlappingWith( vp ) )
+	//	{
+	//		auto starDrawable = star.GetDrawable(); 
+	//		cam.Draw( starDrawable);
+	//	}
+	//}
+
+	/*matrix approach*/
+	auto star = Star::Make(100.0f, 50.0f);
+
+	auto tform = Mat2::Scale(10.0f); 
+	auto tform2 = Mat2::FlipY(); 
+	auto tform3 = Mat2::Rotate(0.3);
+
+	const auto tformcat = tform3 * tform2 * tform;// *tform3;
+
+	for (auto& v : star)
 	{
-		if( star.GetBoudingRect().IsOverlappingWith( vp ) )
-		{
-			auto starDrawable = star.GetDrawable(); 
-			cam.Draw( starDrawable);
-		}
+		v = tformcat * v; 
 	}
+
+	auto starDrawabale = Drawable{ star, Colors::Green };
+	cam.Draw(starDrawabale);
+
+
 }
