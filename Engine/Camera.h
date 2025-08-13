@@ -4,6 +4,9 @@
 #include "RectF.h"
 #include "Graphics.h"
 
+
+#include"ChiliMath.h"
+
 class Camera
 {
 public:
@@ -54,11 +57,19 @@ public:
 	RectF GetViewportRect() const
 	{
 		const float zoom = 1.0f / scale;
-		return RectF::FromCenter( 
-			pos,
-			float( Graphics::ScreenWidth / 2 ) * zoom,
-			float( Graphics::ScreenHeight / 2 ) * zoom
+
+		const float diagonal = sqrt(
+			sq(float(Graphics::ScreenWidth/2.0f) * zoom)
+			+ 
+			sq(float(Graphics::ScreenHeight/2.0f) * zoom)
 		);
+
+		return RectF::FromCenter(pos, diagonal, diagonal);
+		//return RectF::FromCenter( 
+		//	pos,
+		//	float( Graphics::ScreenWidth / 2 ) * zoom,
+		//	float( Graphics::ScreenHeight / 2 ) * zoom
+		//);
 	}
 
 private:
